@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Beale Street Brawl</title>
+<meta name="description" content="A 2D fighting game set on Beale Street, Memphis. Plays in the browser on desktop and phone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;700&display=swap">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<div id="wrap">
+  <canvas id="c" width="960" height="540" aria-label="Beale Street Brawl game screen"></canvas>
+</div>
+<div class="bar"><button class="mute" id="mute" type="button">Music &amp; sound: on</button></div>
+<p id="help">Move <kbd>A</kbd><kbd>D</kbd> or arrows · Jump <kbd>W</kbd> · Crouch <kbd>S</kbd> · Punch <kbd>J</kbd> · Kick <kbd>K</kbd> · Forward + Punch/Kick = heavy · Special <kbd>L</kbd> · Down + Special = projectile · Back + Special = anti-air · Special in the air = dive · Full meter + Special = super · Punch that connects chains into Kick · Hold back to block · <kbd>Enter</kbd> to start</p>
+<div id="pad">
+  <div class="dpad">
+    <span></span><button class="b" data-k="up" type="button" aria-label="Jump">▲</button><span></span>
+    <button class="b" data-k="left" type="button" aria-label="Left">◀</button><span></span><button class="b" data-k="right" type="button" aria-label="Right">▶</button>
+    <span></span><button class="b" data-k="down" type="button" aria-label="Crouch">▼</button><span></span>
+  </div>
+  <div class="btns">
+    <button class="b" data-k="p" type="button">P</button>
+    <button class="b" data-k="k" type="button">K</button>
+    <button class="b sp" data-k="s" type="button">SPECIAL</button>
+  </div>
+</div>
+<script src="src/game.js"></script>
+</body>
+</html>

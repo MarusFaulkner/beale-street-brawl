@@ -1,0 +1,75 @@
+# Beale Street Brawl
+
+A 2D fighting game set on Beale Street in Memphis, Tennessee. It runs in any modern browser, on desktop and on a phone, with no install and no build step.
+
+**Play it:** https://marusfaulkner.github.io/beale-street-brawl/
+
+## Status
+
+Two of the planned six fighters are playable: **Nicole** (rushdown, dash punches) and **Keelah** (kickboxer, spin kicks). Two bosses are planned. The current mode is one player against the CPU, best of three rounds, with Easy, Normal and Hard difficulty.
+
+## Controls
+
+| Action | Keyboard | Phone |
+|---|---|---|
+| Move | `A` `D` or arrow keys | D-pad left / right |
+| Jump | `W` or up arrow | D-pad up |
+| Crouch | `S` or down arrow | D-pad down |
+| Punch | `J` | P |
+| Kick | `K` | K |
+| Special | `L` | SPECIAL |
+| Block | Hold back | Hold back |
+| Start / confirm | `Enter` | Tap |
+
+## Moves
+
+Both fighters share the same inputs. Normal attacks have identical damage, speed and reach, so the matchup is even.
+
+| Input | Nicole | Keelah |
+|---|---|---|
+| Punch | Jab | Jab |
+| Kick | Kick | Kick |
+| Forward + Punch | Heavy punch | Heavy punch |
+| Forward + Kick | Heavy kick (knocks down) | Heavy kick (knocks down) |
+| Punch, Punch, Kick | 3-hit combo | 3-hit combo |
+| Special | Crimson Rush | Roundhouse Flurry |
+| Down + Special | Crimson Wave (projectile) | Pink Comet (projectile) |
+| Back + Special | Rising Rose (anti-air) | Rising Heel (anti-air) |
+| Special in the air | Heel Quake (dive) | Ground Breaker (dive) |
+| Special with a full meter | Crimson Cyclone (super) | After Hours Tornado (super) |
+
+A jab that connects can be cancelled into a kick, a heavy punch or a special. The meter fills as you deal and take damage.
+
+## Run it locally
+
+The game loads its art with normal image requests, so serve the folder instead of opening `index.html` from disk:
+
+```bash
+python3 -m http.server 8000
+# then open http://localhost:8000
+```
+
+## How it is built
+
+- `index.html` holds the page markup: the canvas, the touch pad and the help line.
+- `src/style.css` holds the page styling.
+- `src/game.js` holds the whole game in one commented file, in this order: assets and frame tables, the roster (animations and move data), input, the fighter state machine, the CPU, match flow, and rendering.
+- `assets/` holds the sprite atlases, the stage, the select portraits and the victory animations.
+
+The simulation runs at a fixed 60 ticks per second, and every timing in the move data is in ticks. A move is one entry in `ROSTER`: its frame sequence, the ticks when its hitbox is live, the hitbox, and its damage, stun and pushback. Adding or tuning a move means editing that entry.
+
+Each sprite atlas has a frame table in `game.js` (`FR`). Every frame is listed as `[x, y, width, height, anchorX, anchorY]`, where the anchor is the middle of the body at foot level. Anchoring every frame at the feet is what keeps a fighter planted while she animates.
+
+The music and sound effects are synthesized in the browser with the Web Audio API. There are no audio files.
+
+## Known gaps
+
+- Keelah has no dedicated block, hit or knockdown art yet. Those states reuse other frames with effects drawn in code.
+- Four more fighters and two bosses are planned.
+- There is no two-player mode yet.
+
+## Credits and rights
+
+Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on a real person, used with her permission. The character art and likeness are not licensed for reuse.
+
+The soundtrack is an original composition written for this game.
