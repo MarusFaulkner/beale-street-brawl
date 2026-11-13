@@ -6,7 +6,7 @@ A 2D fighting game set on Beale Street in Memphis, Tennessee. It runs in any mod
 
 ## Status
 
-Three of the planned six fighters are playable: **Nicole** (rushdown, dash punches), **Keelah** (kickboxer, spin kicks) and **Marcoss** (powerhouse, heavy hands). Two bosses are planned. There are three stages: Beale Street, the Crystal Palace roller rink and the Midsouth Coliseum. The current mode is one player against a random CPU opponent, best of three rounds, with Easy, Normal and Hard difficulty.
+Four of the planned six fighters are playable: **Nicole** (rushdown, dash punches), **Keelah** (kickboxer, spin kicks), **Marcoss** (powerhouse, heavy hands) and **KOM** (all-rounder). Two bosses are planned. There are three stages: Beale Street, the Crystal Palace roller rink and the Midsouth Coliseum. The current mode is one player against a random CPU opponent, best of three rounds, with Easy, Normal and Hard difficulty.
 
 ## Controls
 
@@ -26,20 +26,20 @@ Three of the planned six fighters are playable: **Nicole** (rushdown, dash punch
 
 All fighters share the same inputs. Normal attacks have identical damage, speed and reach, so the matchup is even.
 
-| Input | Nicole | Keelah | Marcoss |
-|---|---|---|---|
-| Punch | Jab | Jab | Jab |
-| Kick | Kick | Kick | Kick |
-| Forward + Punch | Heavy punch | Heavy punch | Heavy punch |
-| Forward + Kick | Heavy kick (knocks down) | Heavy kick (knocks down) | Flying spin kick (knocks down) |
-| Down + Punch | | | Crouching punch |
-| Down + Kick | | | Sweep (knocks down) |
-| Punch, Punch, Kick | 3-hit combo | 3-hit combo | 3-hit combo |
-| Special | Crimson Rush | Roundhouse Flurry | Bluff City Rush |
-| Down + Special | Crimson Wave (projectile) | Pink Comet (projectile) | Blue Flame (projectile) |
-| Back + Special | Rising Rose (anti-air) | Rising Heel (anti-air) | Rising Uppercut (anti-air) |
-| Special in the air | Heel Quake (dive) | Ground Breaker (dive) | Flying Kick (dive) |
-| Special with a full meter | Crimson Cyclone (super) | After Hours Tornado (super) | Memphis Mauler (super) |
+| Input | Nicole | Keelah | Marcoss | KOM |
+|---|---|---|---|---|
+| Punch | Jab | Jab | Jab | Jab |
+| Kick | Kick | Kick | Kick | Kick |
+| Forward + Punch | Heavy punch | Heavy punch | Heavy punch | Heavy punch |
+| Forward + Kick | Heavy kick (knocks down) | Heavy kick (knocks down) | Flying spin kick (knocks down) | Heavy kick (knocks down) |
+| Down + Punch | | | Crouching punch | |
+| Down + Kick | | | Sweep (knocks down) | |
+| Punch, Punch, Kick | 3-hit combo | 3-hit combo | 3-hit combo | 3-hit combo |
+| Special | Crimson Rush | Roundhouse Flurry | Bluff City Rush | King's Rush |
+| Down + Special | Crimson Wave (projectile) | Pink Comet (projectile) | Blue Flame (projectile) | Beale Burst (projectile) |
+| Back + Special | Rising Rose (anti-air) | Rising Heel (anti-air) | Rising Uppercut (anti-air) | Memphis Spin Kick (anti-air) |
+| Special in the air | Heel Quake (dive) | Ground Breaker (dive) | Flying Kick (dive) | Crown Drop (dive) |
+| Special with a full meter | Crimson Cyclone (super) | After Hours Tornado (super) | Memphis Mauler (super) | King of Beale (super) |
 
 A jab that connects can be cancelled into a kick, a heavy punch or a special. The meter fills as you deal and take damage.
 
@@ -69,11 +69,12 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 
 - Keelah has no dedicated block, hit or knockdown art yet. Those states reuse other frames with effects drawn in code.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
-- Three more fighters and two bosses are planned.
+- KOM's sheet drew each frame about 110 pixels tall, so his sprites are enlarged and look softer than the others.
+- Two more fighters and two bosses are planned.
 - There is no two-player mode yet.
 
 ## Credits and rights
 
-Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on real people, used with their permission. The character art and likeness are not licensed for reuse.
+Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on real people, used with their permission, except KOM, who is an invented character. The character art and likeness are not licensed for reuse.
 
 The soundtrack is an original composition written for this game.
