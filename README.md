@@ -37,7 +37,7 @@ All fighters share the same inputs. Normal attacks have identical damage, speed 
 | Punch, Punch, Kick | 3-hit combo | 3-hit combo | 3-hit combo | 3-hit combo |
 | Special | Crimson Rush | Roundhouse Flurry | Bluff City Rush | King's Rush |
 | Down + Special | Crimson Wave (projectile) | Pink Comet (projectile) | Blue Flame (projectile) | Beale Burst (projectile) |
-| Back + Special | Rising Rose (anti-air) | Rising Heel (anti-air) | Rising Uppercut (anti-air) | Memphis Spin Kick (anti-air) |
+| Back + Special | Rising Rose (anti-air) | Rising Heel (anti-air) | Rising Uppercut (anti-air) | Crown Uppercut (anti-air) |
 | Special in the air | Heel Quake (dive) | Ground Breaker (dive) | Flying Kick (dive) | Crown Drop (dive) |
 | Special with a full meter | Crimson Cyclone (super) | After Hours Tornado (super) | Memphis Mauler (super) | King of Beale (super) |
 
@@ -69,7 +69,7 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 
 - Keelah has no dedicated block, hit or knockdown art yet. Those states reuse other frames with effects drawn in code.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
-- KOM's sheet drew each frame about 110 pixels tall, so his sprites are enlarged and look softer than the others.
+- KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run, knockdown and crouch frames were drawn small and look softer than the rest.
 - Two more fighters and two bosses are planned.
 - There is no two-player mode yet.
 
