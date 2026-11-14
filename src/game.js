@@ -580,7 +580,7 @@ function bar(x,y,w,h,pct,rev,c1,c2,ghost){
     g.save(); g.clip(); g.fillStyle="rgba(255,255,255,.28)"; g.fillRect(x,y,w+sk,h*.35); g.restore(); }
   path(x,x+w); g.strokeStyle="#f6eefc"; g.lineWidth=2; g.stroke();
 }
-const FACE={ crimson:[150,5,180], afterhours:[170,15,170], marcoss:[165,0,180], kom:[200,5,150] };   // face crop (x, y, size) in each select portrait
+const FACE={ crimson:[150,5,180], afterhours:[170,15,170], marcoss:[165,0,180], kom:[150,12,185] };   // face crop (x, y, size) in each select portrait
 function portrait(f,cx,cy,r,col){
   const [sx,sy,ss]=FACE[f.key], sp=IMG["win_"+f.key], q=sp.width/506;
   g.save(); g.beginPath(); g.arc(cx,cy,r,0,7); g.clip(); g.drawImage(sp,sx*q,sy*q,ss*q,ss*q,cx-r,cy-r,r*2,r*2);
