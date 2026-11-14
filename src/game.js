@@ -679,7 +679,7 @@ const VICTORY={
   crimson:{ cols:8, fps:10, fw:320, fh:320, order:[...seq(0,62), ...Array(8).fill(62), ...seq(61,1)] },
   afterhours:{ cols:7, fps:10, fw:320, fh:320, order:[...seq(0,38), ...Array(8).fill(38), ...seq(37,1)] },
   marcoss:{ cols:7, fps:8, fw:320, fh:320, order:[...seq(0,42), ...Array(8).fill(42), ...seq(41,1)] },
-  kom:{ cols:6, fps:6, fw:480, fh:270, order:[...seq(0,35), ...Array(8).fill(35), ...seq(34,1)], wide:true },
+  kom:{ cols:6, fps:6, fw:480, fh:270, order:[...seq(0,29), ...Array(8).fill(29), ...seq(28,1)], wide:true },
 };
 function drawResult(){
   const C=VW/2, w=match.winner, you=w===match.p1, sp=IMG["va_"+w.key], va=VICTORY[w.key];
