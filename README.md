@@ -75,6 +75,6 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 
 ## Credits and rights
 
-Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on real people, used with their permission, except KOM, who is an invented character. The character art and likeness are not licensed for reuse.
+Game design and art direction by Marcus Faulkner. All characters in Beale Street Brawl are fictional. Any resemblance to actual persons, living or deceased, is purely coincidental. Character artwork was created using AI-assisted design tools. The character art and likenesses are not licensed for reuse.
 
-The soundtrack is an original composition written for this game.
+The soundtrack is an original composition created for this game.
