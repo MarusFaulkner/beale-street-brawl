@@ -63,13 +63,13 @@ The simulation runs at a fixed 60 ticks per second, and every timing in the move
 
 Each sprite atlas has a frame table in `game.js` (`FR`). Every frame is listed as `[x, y, width, height, anchorX, anchorY]`, where the anchor is the middle of the body at foot level. Anchoring every frame at the feet is what keeps a fighter planted while she animates.
 
-The music and sound effects are synthesized in the browser with the Web Audio API. There are no audio files.
+The music and sound effects are synthesized in the browser with the Web Audio API. There are no audio files. Each stage has its own original track: a dark Memphis-style beat on Beale Street, roller-rink funk at the Crystal Palace and an arena anthem at the Midsouth Coliseum. The menu uses the Beale Street track.
 
 ## Known gaps
 
 - Keelah has no dedicated block or hit art yet. Those states reuse other frames with effects drawn in code. Her knockdown has its own lying pose.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
-- KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run and crouch frames were drawn small and look softer than the rest.
+- KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run, knockdown and crouch frames were drawn small and look softer than the rest.
 - Two more fighters and two bosses are planned.
 - There is no two-player mode yet.
 

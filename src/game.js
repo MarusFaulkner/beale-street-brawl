@@ -181,6 +181,10 @@ const audio = {
      No samples and no melodies from existing songs; every note here is written for this game.
      150 BPM counted in half-time, C# minor, 8-bar loop of 16 sixteenth-notes per bar. */
   BPM:150,
+  T:{BPM:150,style:"beale"},
+  // One track per stage: 0 Beale Street (dark Memphis tape beat), 1 Crystal Palace (roller-rink funk), 2 Midsouth Coliseum (arena anthem).
+  TRACKS:[{BPM:150,style:"beale"},{BPM:122,style:"rink",gain:1.25},{BPM:142,style:"arena"}],
+  setTrack(i){ const T=this.TRACKS[i]||this.TRACKS[0]; if(T===this.T) return; this.T=T; if(this.mbus) this.mbus.gain.value=T.gain||.9; this.mstep=0; if(this.ctx) this.mnext=this.ctx.currentTime+.12; },
   ROOTS:[69.30,69.30,69.30,69.30,55.00,55.00,51.91,51.91],             // 808 roots: C#, C#, C#, C#, A, A, G#, G#
   // Creepy key riff: {step: semitones above C#4}. Leans on the minor 2nd and tritone for that horror feel.
   RIFF:[{0:7,3:8,6:7,8:3,11:1,14:0},{0:7,3:8,6:7,8:3,11:6,14:3},{0:7,3:8,6:7,8:3,11:1,14:0},{0:12,2:11,4:8,6:7,8:6,10:3,12:1,14:0},
@@ -194,7 +198,7 @@ const audio = {
     const sat=c.createWaveShaper(), k=new Float32Array(1024); for(let i=0;i<1024;i++){ const x=i/512-1; k[i]=Math.tanh(1.8*x); } sat.curve=k; sat.connect(lp);
     this.mbus=c.createGain(); this.mbus.gain.value=.9; this.mbus.connect(sat);
     this.mstep=0; this.mnext=c.currentTime+0.15; this.mtimer=setInterval(()=>this.schedule(),40); },
-  schedule(){ const s16=60/this.BPM/4;
+  schedule(){ const s16=60/this.T.BPM/4;
     while(this.mnext < this.ctx.currentTime+0.25){ this.playStep(this.mstep,this.mnext,s16); this.mnext+=s16; this.mstep++; } },
   mnote(f,t,d,type,v,filt,detune){ const c=this.ctx,o=c.createOscillator(),gn=c.createGain(); o.type=type; o.frequency.value=f; if(detune) o.detune.value=detune;
     gn.gain.setValueAtTime(v,t); gn.gain.exponentialRampToValueAtTime(.001,t+d);
@@ -204,7 +208,8 @@ const audio = {
     for(let i=0;i<a.length;i++) a[i]=(Math.random()*2-1)*Math.pow(1-i/a.length,2);
     const src=c.createBufferSource(),f=c.createBiquadFilter(),gn=c.createGain(); src.buffer=b; f.type=bp?"bandpass":"highpass"; f.frequency.value=freq; gn.gain.value=v;
     src.connect(f).connect(gn).connect(this.mbus); src.start(t); },
-  playStep(s,t,s16){ const c=this.ctx, bar=Math.floor(s/16)%8, i=s%16, root=this.ROOTS[bar], semi=n=>Math.pow(2,n/12);
+  playStep(s,t,s16){ if(this.T.style==='rink') return this.playRink(s,t,s16); if(this.T.style==='arena') return this.playArena(s,t,s16);
+    const c=this.ctx, bar=Math.floor(s/16)%8, i=s%16, root=this.ROOTS[bar], semi=n=>Math.pow(2,n/12);
     // 808 kick + long booming bass, sliding down at the end of each 4-bar phrase
     if(this.KICK[bar].includes(i)){
       const o=c.createOscillator(),gn=c.createGain(); o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(42,t+.09);
@@ -235,6 +240,52 @@ const audio = {
       for(const m of [1,1.48]){ const o=c.createOscillator(),gn=c.createGain(),bp=c.createBiquadFilter(); o.type="square"; o.frequency.value=base*m;
         bp.type="bandpass"; bp.frequency.value=base*1.2; bp.Q.value=3; gn.gain.setValueAtTime(.09,t); gn.gain.exponentialRampToValueAtTime(.001,t+.16);
         o.connect(bp).connect(gn).connect(this.mbus); o.start(t); o.stop(t+.18); } }
+  },
+  kick808(t,len,start=160,end=42,v=1){ const c=this.ctx,o=c.createOscillator(),gn=c.createGain(); o.frequency.setValueAtTime(start,t); o.frequency.exponentialRampToValueAtTime(end,t+.09);
+    gn.gain.setValueAtTime(v,t); gn.gain.exponentialRampToValueAtTime(.001,t+len); o.connect(gn).connect(this.mbus); o.start(t); o.stop(t+len+.02); },
+  /* Crystal Palace: roller-rink funk. A minor, 122 BPM, four-on-the-floor kick, slapping synth bass, offbeat organ stabs and a bright square arpeggio. */
+  RINK_ROOT:[55,55,43.65,43.65,49,49,41.2,41.2],                                       // A, A, F, F, G, G, E, E
+  RINK_CH:[[0,3,7,12],[0,3,7,12],[-4,0,3,8],[-4,0,3,8],[-2,2,5,10],[-2,2,5,10],[-5,-1,2,7],[-5,-1,2,7]],   // chord tones in semitones above A3
+  RINK_ARP:[0,1,2,3,2,1,2,3,0,1,2,3,2,1,3,2],
+  playRink(s,t,s16){ const c=this.ctx, bar=Math.floor(s/16)%8, i=s%16, root=this.RINK_ROOT[bar], ch=this.RINK_CH[bar], semi=n=>Math.pow(2,n/12);
+    if(i%4===0) this.kick808(t,.22,150,48,.9);
+    if(i===10&&bar%2===1) this.kick808(t,.18,150,48,.7);
+    if(i===4||i===12){ this.mnoise(t,.16,.42,1700,true); this.mnoise(t,.09,.25,5200); this.mnote(200,t,.08,"triangle",.2); }          // backbeat snare/clap
+    if(bar===7&&i>=12) for(let r=0;r<2;r++) this.mnoise(t+r*s16/2,.06,.16,2400,true);                                                 // fill
+    if(i%4===2) this.mnoise(t,.11,.09,8000); else if(i%2===1) this.mnoise(t,.025,.045,9500); else if(i%4===0) this.mnoise(t,.02,.06,9500);
+    // slap bass: saw through a closing lowpass, syncopated with octave pops
+    if([0,3,6,8,10,12,14].includes(i)){ const f=root*(i===6||i===14?2:1)*(i===10?1.5:1), o=c.createOscillator(),gn=c.createGain(),lp=c.createBiquadFilter();
+      o.type="sawtooth"; o.frequency.value=f; lp.type="lowpass"; lp.frequency.setValueAtTime(1400,t); lp.frequency.exponentialRampToValueAtTime(260,t+.16); lp.Q.value=5;
+      gn.gain.setValueAtTime(.22,t); gn.gain.exponentialRampToValueAtTime(.001,t+(i===0?.3:.17)); o.connect(lp).connect(gn).connect(this.mbus); o.start(t); o.stop(t+.35); }
+    // roller-rink organ stabs on the offbeats
+    if(i%4===2){ for(const n of ch.slice(0,3)){ this.mnote(220*semi(n),t,.12,"sawtooth",.028,1700,(n%3)*5-5); } }
+    // bright arpeggio, with a sparkly octave echo on the up-beats
+    const an=ch[this.RINK_ARP[i]]; this.mnote(440*semi(an),t,.13,"square",.045,2800);
+    if(i%4===3) this.mnote(880*semi(an),t,.1,"triangle",.03);
+    // warm pad
+    if(i===0){ const dur=s16*16; for(const n of [ch[0],ch[1],ch[2]]){ const o=c.createOscillator(),gn=c.createGain(),lp=c.createBiquadFilter(); o.type="sawtooth"; o.frequency.value=110*semi(n); o.detune.value=(n%4)*4-6;
+        lp.type="lowpass"; lp.frequency.value=900; gn.gain.setValueAtTime(.0001,t); gn.gain.linearRampToValueAtTime(.02,t+.3); gn.gain.linearRampToValueAtTime(.0001,t+dur); o.connect(lp).connect(gn).connect(this.mbus); o.start(t); o.stop(t+dur+.05); } }
+  },
+  /* Midsouth Coliseum: arena anthem. D minor, 142 BPM, stomp-and-clap drums, brass stabs, a heroic lead line and a crowd swell. */
+  ARENA_ROOT:[73.42,73.42,58.27,58.27,49,49,55,55],                                       // D, D, Bb, Bb, G, G, A, A
+  ARENA_CH:[[0,3,7],[0,3,7],[-4,0,3],[-4,0,3],[-7,-4,0],[-7,-4,0],[-5,-1,2],[-5,-1,2]],   // chord tones in semitones above D4 (293.66 Hz)
+  ARENA_LEAD:[{0:0,3:3,6:7,8:5,12:3},{0:0,3:3,6:7,8:10,12:12},{0:3,3:0,6:-4,8:0,12:3},{0:5,3:3,6:0,8:-2,12:0},
+              {0:0,3:-4,6:0,8:3,12:2},{0:0,3:-4,6:-7,8:-4,12:0},{0:2,3:5,6:2,8:-1,12:-5},{0:-1,2:2,4:5,6:7,8:9,10:10,12:12,14:14}],
+  playArena(s,t,s16){ const c=this.ctx, bar=Math.floor(s/16)%8, i=s%16, root=this.ARENA_ROOT[bar], ch=this.ARENA_CH[bar], semi=n=>Math.pow(2,n/12);
+    if(i===0||i===6||i===10){ this.kick808(t,.4,150,40,1); this.mnote(root,t,i===0?.7:.4,"sine",.7); }                                   // boom, boom
+    if(i===8){ this.mnoise(t,.34,.5,1500,true); this.mnoise(t,.2,.3,4500); this.mnote(170,t,.12,"triangle",.3); }                      // big gated snare
+    if(i===4||i===12){ this.mnoise(t,.07,.2,1300,true); }                                                                              // crowd clap
+    if(bar%4===3&&i>=12) for(let r=0;r<3;r++) this.mnoise(t+r*s16/3,.06,.14+.04*(i-12),2300,true);                                  // snare roll
+    if(i%2===0) this.mnoise(t,.03,i%4===0?.13:.08,9000);
+    // brass stabs: stacked detuned saws on the chord, root-heavy
+    if(i===0||i===6||i===10){ for(const n of [...ch,ch[0]+12]){ this.mnote(293.66*semi(n),t,i===0?.5:.2,"sawtooth",i===0?.07:.06,1900,(n%4)*5-6); } }
+    // heroic lead: square + soft triangle an octave up
+    const n=this.ARENA_LEAD[bar][i]; if(n!==undefined){ const f=293.66*2*semi(n); this.mnote(f,t,.32,"square",.05,3200,-6); this.mnote(f*2,t,.2,"triangle",.03); }
+    // crowd swell at the start of each half
+    if(i===0&&bar%4===0) this.mnoise(t,1.6,.07,700,true);
+    // low strings
+    if(i===0){ const dur=s16*16; for(const n of ch){ const o=c.createOscillator(),gn=c.createGain(),lp=c.createBiquadFilter(); o.type="sawtooth"; o.frequency.value=146.83*semi(n); o.detune.value=(n%5)*3-5;
+        lp.type="lowpass"; lp.frequency.value=800; gn.gain.setValueAtTime(.0001,t); gn.gain.linearRampToValueAtTime(.026,t+.4); gn.gain.linearRampToValueAtTime(.0001,t+dur); o.connect(lp).connect(gn).connect(this.mbus); o.start(t); o.stop(t+dur+.05); } }
   },
   // one-shot sound effects (bypass the lo-fi music bus so hits stay crisp)
   tone(f,d,type="square",v=.12,slide=0){ if(!this.on||!this.ctx) return; const t=this.ctx.currentTime,o=this.ctx.createOscillator(),g=this.ctx.createGain();
@@ -454,6 +505,7 @@ function endRound(w){
   match.roundEnd=170;
 }
 function step(){
+  audio.setTrack(match.screen==="fight"||match.screen==="result"?match.stage:0);
   match.frame++;
   if(match.screen==="title"){
     const blip=()=>{ audio.tone(500,.05); audio.tone(750,.08,"triangle",.08); };
