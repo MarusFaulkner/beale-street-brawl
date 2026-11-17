@@ -739,10 +739,13 @@ function drawResult(){
   const C=VW/2, w=match.winner, you=w===match.p1, sp=IMG["va_"+w.key], va=VICTORY[w.key];
   const i=va.order[Math.floor((match.frame-match.resultStart)*va.fps/60)%va.order.length];
   const fx=(i%va.cols)*va.fw, fy=Math.floor(i/va.cols)*va.fh, sc=Math.max(VW/va.fw,540/va.fh), sw=VW/sc, sh=540/sc;
-  if(va.wide && VW/540 < va.fw/va.fh*.9){
-    // widescreen clip on a tall screen: show the whole picture over a dimmed, blurred copy of itself
-    g.filter="blur(14px) brightness(.35)"; g.drawImage(sp, fx+(va.fw-sw)/2, fy, sw, sh, -20,-20,VW+40,580); g.filter="none";
-    const h=VW*va.fh/va.fw; g.drawImage(sp, fx, fy, va.fw, va.fh, 0, 70, VW, h);
+  // If filling the screen would crop away more than ~15% of the picture (square clips on a wide screen, wide clips on a tall one),
+  // show the whole frame instead, over a dimmed, blurred copy of itself.
+  const viewA=VW/540, clipA=va.fw/va.fh, crop=1-Math.min(viewA,clipA)/Math.max(viewA,clipA);
+  if(crop>.15){
+    g.filter="blur(14px) brightness(.35)"; g.drawImage(sp, fx+(va.fw-sw)/2, fy+(va.fh-sh)/2, sw, sh, -20,-20,VW+40,580); g.filter="none";
+    const dh=Math.min(540,VW*va.fh/va.fw), dw=dh*clipA, dy=dh<540?(540-dh)*.4:0;
+    g.drawImage(sp, fx, fy, va.fw, va.fh, (VW-dw)/2, dy, dw, dh);
   } else g.drawImage(sp, fx+(va.fw-sw)/2, fy+(va.fh-sh)*.35, sw, sh, 0,0,VW,540);
   const gr=g.createLinearGradient(0,0,0,540); gr.addColorStop(0,"rgba(13,7,24,0)"); gr.addColorStop(.68,"rgba(13,7,24,0)"); gr.addColorStop(1,"rgba(13,7,24,.92)"); g.fillStyle=gr; g.fillRect(0,0,VW,540);
   // text sits at the bottom so it never covers a face
