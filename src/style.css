@@ -1,0 +1,38 @@
+/* Layout: one full-height arcade cabinet screen — canvas on top, touch pad below on phones.
+   Single committed look (neon night on Beale), so no light theme. */
+:root{
+  --bg:#0d0718;          /* cabinet black, violet-biased */
+  --panel:#1a1030;       /* control panel */
+  --ink:#f6eefc;         /* text */
+  --dim:#a99bc4;         /* secondary text */
+  --neon:#ff3fb4;        /* pink neon accent */
+  --cyan:#45e0ff;        /* blue neon */
+  --gold:#ffc642;        /* marquee gold */
+  --display:"Bungee","Impact","Arial Black",sans-serif;
+  --ui:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:12px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:12px;
+  overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#wrap{width:100%;max-width:1100px;position:relative}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;max-width:100%;border-radius:6px;
+  box-shadow:0 0 0 2px #2c1d4d,0 0 40px rgba(255,63,180,.18);background:#000;touch-action:none}
+#help{font-size:13px;color:var(--dim);text-align:center;max-width:65ch;line-height:1.5}
+#help kbd{font-family:var(--ui);font-weight:700;color:var(--ink);background:var(--panel);border:1px solid #3a2a60;border-radius:4px;padding:1px 6px}
+#pad{display:none;margin-top:auto;padding-bottom:12px;width:100%;max-width:1100px;justify-content:space-between;align-items:center;gap:12px;touch-action:none}
+body.touch #pad{display:flex}
+body.touch #help{display:none}
+.dpad{display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,58px);gap:4px}
+.btns{display:grid;grid-template-columns:repeat(2,74px);gap:10px}
+.b{border:2px solid #3a2a60;background:var(--panel);color:var(--ink);font-family:var(--display);font-size:15px;
+  border-radius:12px;display:flex;align-items:center;justify-content:center;touch-action:none}
+.b.on{background:#3a2160;border-color:var(--neon);box-shadow:0 0 12px rgba(255,63,180,.5)}
+.btns .b{height:74px;border-radius:50%;font-size:22px}
+.btns .sp{grid-column:span 2;height:52px;border-radius:26px;border-color:var(--gold);color:var(--gold)}
+.bar{width:100%;max-width:1100px;display:flex;justify-content:flex-end}
+.mute{background:var(--panel);border:1px solid #3a2a60;color:var(--ink);
+  font-family:var(--ui);font-weight:700;border-radius:6px;padding:4px 10px;cursor:pointer}
+.mute:focus-visible,.b:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
