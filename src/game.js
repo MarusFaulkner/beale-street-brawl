@@ -154,7 +154,7 @@ const ROSTER = {
   // Atlas index guide: 0 relaxed | 1-2 stance | 3 cross | 4 hook wind-up | 5 grab lunge | 6-7 stance | 8-9 walk | 10 crouch/guard | 11 jump |
   // 12 stance | 13 jab | 14 cross | 15 hook wind-up | 16 hook swing | 17 recovery | 18 rope-whip pull | 19 elbow drop (air) | 20 elbow drop (landed) |
   // 21 knee crusher | 22 King's Drop (air) | 23 grab reach | 24 lift overhead | 25 body slam | 26 suplex | 27 piledriver | 28 knocked back | 29 lying.
-  // No block, hit or victory art yet: block uses the crouch guard, getting hit uses the code lean.
+  // No block or hit art yet: block uses the crouch guard, getting hit uses the code lean.
   brawler: {
     name: "BRAWLER", atlas: "brawler", size: 1.08, boss: true, takes: 0.58, deals: 1.15, style: "BOSS  ·  MEMPHIS HEAVYWEIGHT",
     anim: {
@@ -778,11 +778,12 @@ const VICTORY={
   crimson:{ cols:8, fps:10, fw:320, fh:320, order:[...seq(0,62), ...Array(8).fill(62), ...seq(61,1)] },
   afterhours:{ cols:7, fps:10, fw:320, fh:320, order:[...seq(0,38), ...Array(8).fill(38), ...seq(37,1)] },
   marcoss:{ cols:7, fps:8, fw:320, fh:320, order:[...seq(0,42), ...Array(8).fill(42), ...seq(41,1)] },
+  brawler:{ cols:6, fps:6, fw:320, fh:320, order:[...seq(0,35), ...Array(8).fill(35), ...seq(34,1)] },
   kom:{ cols:6, fps:6, fw:480, fh:270, order:[...seq(0,29), ...Array(8).fill(29), ...seq(28,1)], wide:true },
 };
 function drawResult(){
   const C=VW/2, w=match.winner, you=w===match.p1;
-  if(!VICTORY[w.key]){   // no victory clip yet (the boss): hold his portrait with a slow push-in
+  if(!VICTORY[w.key]){   // a fighter without a victory clip: hold the select portrait with a slow push-in
     const sp=IMG["win_"+w.key], z=1+.04*Math.min(1,(match.frame-match.resultStart)/240), dh=540*z, dw=dh*sp.width/sp.height;
     g.filter="blur(14px) brightness(.4)"; g.drawImage(sp,-20,-20,VW+40,580); g.filter="none"; g.drawImage(sp,(VW-dw)/2,(540-dh)/2,dw,dh);
     const gr=g.createLinearGradient(0,0,0,540); gr.addColorStop(0,"rgba(13,7,24,0)"); gr.addColorStop(.68,"rgba(13,7,24,0)"); gr.addColorStop(1,"rgba(13,7,24,.92)"); g.fillStyle=gr; g.fillRect(0,0,VW,540);
@@ -851,5 +852,5 @@ function loop(now){
   while(acc>=1000/60){ step(); for(const k in pressed) pressed[k]=false; acc-=1000/60; }
   render(); requestAnimationFrame(loop);
 }
-Promise.all([ load("crimson","assets/nicole-sprites.webp"), load("afterhours","assets/keelah-sprites.webp"), load("bg","assets/stage-beale-street.jpg"), load("kom","assets/kom-sprites.webp"), load("win_kom","assets/select-kom.jpg"), load("va_kom","assets/victory-kom.webp"), load("marcoss","assets/marcoss-sprites.webp"), load("brawler","assets/brawler-sprites.webp"), load("win_brawler","assets/select-brawler.jpg"), load("bg_palace","assets/stage-crystal-palace.jpg"), load("bg_coliseum","assets/stage-midsouth-coliseum.jpg"), load("win_marcoss","assets/select-marcoss.jpg"), load("va_marcoss","assets/victory-marcoss.webp"), load("win_crimson","assets/select-nicole.jpg"), load("win_afterhours","assets/select-keelah.jpg"), load("va_crimson","assets/victory-nicole.webp"), load("va_afterhours","assets/victory-keelah.webp") ])
+Promise.all([ load("crimson","assets/nicole-sprites.webp"), load("afterhours","assets/keelah-sprites.webp"), load("bg","assets/stage-beale-street.jpg"), load("kom","assets/kom-sprites.webp"), load("win_kom","assets/select-kom.jpg"), load("va_kom","assets/victory-kom.webp"), load("marcoss","assets/marcoss-sprites.webp"), load("brawler","assets/brawler-sprites.webp"), load("win_brawler","assets/select-brawler.jpg"), load("va_brawler","assets/victory-brawler.webp"), load("bg_palace","assets/stage-crystal-palace.jpg"), load("bg_coliseum","assets/stage-midsouth-coliseum.jpg"), load("win_marcoss","assets/select-marcoss.jpg"), load("va_marcoss","assets/victory-marcoss.webp"), load("win_crimson","assets/select-nicole.jpg"), load("win_afterhours","assets/select-keelah.jpg"), load("va_crimson","assets/victory-nicole.webp"), load("va_afterhours","assets/victory-keelah.webp") ])
   .then(()=>requestAnimationFrame(loop));

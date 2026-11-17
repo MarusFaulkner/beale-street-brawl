@@ -74,7 +74,7 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 - Keelah now has her own block and hit art. Nicole and Marcoss still use code effects for getting hit.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
 - KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run, knockdown and crouch frames were drawn small and look softer than the rest.
-- The Midsouth Brawler has no block, hit-reaction or kick art yet: blocking uses his crouch guard and getting hit uses a code effect. He shows a still portrait instead of a victory animation.
+- The Midsouth Brawler has no block, hit-reaction or kick art yet: blocking uses his crouch guard and getting hit uses a code effect.
 - Two more fighters and one more boss are planned.
 - There is no two-player mode yet.
 
