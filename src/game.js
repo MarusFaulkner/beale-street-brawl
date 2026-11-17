@@ -18,7 +18,7 @@ function load(name, src){ return new Promise(r=>{ const i=new Image(); i.onload=
 // Frame tables: [atlasX, atlasY, w, h, anchorX(torso centre), anchorY(feet)]
 // Throw frames have the blast painted in; clip them at the hand so the live projectile is the only blast on screen.
 const CLIP = { crimson:{28:165}, afterhours:{5:160}, marcoss:{12:108} };
-const FR = { crimson: [[0,0,101,264,48,263],[103,0,102,263,52,262],[207,0,102,258,51,257],[311,0,99,259,49,258],[412,0,101,259,51,258],[515,0,96,258,52,257],[613,0,91,258,56,257],[706,0,88,254,46,253],[796,0,128,211,61,210],[926,0,127,179,57,178],[1055,0,115,193,52,192],[1172,0,110,167,46,166],[1284,0,109,163,54,162],[1395,0,117,173,49,172],[1514,0,146,199,69,198],[1662,0,142,196,69,195],[1806,0,148,195,68,194],[0,266,115,216,54,215],[117,266,102,214,47,213],[221,266,93,216,44,215],[316,266,140,204,62,203],[458,266,228,210,115,209],[688,266,105,140,51,139],[795,266,104,196,52,195],[901,266,140,237,41,236],[1043,266,519,168,415,167],[1564,266,172,169,96,168],[1738,266,184,194,65,193],[0,505,409,199,127,198],[411,505,204,184,147,183],[617,505,86,194,40,193],[705,505,195,198,86,197],[902,505,619,195,491,194],[1523,505,151,164,78,163],[1676,505,154,175,79,174],[1832,505,200,193,109,192],[0,706,128,167,75,166],[130,706,117,154,67,153],[249,706,120,169,54,168],[371,706,93,177,30,176],[466,706,274,231,136,230],[742,706,161,203,89,202],[905,706,137,196,79,195],[1044,706,119,209,63,208],[1165,706,123,177,61,176],[1290,706,162,198,73,197],[1454,706,177,122,99,121],[1633,706,156,162,78,161],[1791,706,140,161,65,160],[0,939,336,93,262,92],[338,939,103,261,48,260],[443,939,94,259,44,258],[539,939,93,258,43,257],[634,939,88,258,40,257],[724,939,95,237,53,236],[821,939,83,234,42,233],[906,939,115,228,66,227],[1023,939,79,228,42,227],[1104,939,67,228,39,227],[1173,939,82,232,45,231],[1257,939,110,180,51,179],[1369,939,113,162,52,161],[1484,939,105,161,46,160],[1591,939,108,157,48,156],[1701,939,127,186,60,185],[1830,939,122,160,58,159],[0,1202,115,164,55,163],[117,1202,108,218,57,217],[227,1202,114,215,54,214],[343,1202,148,210,75,209],[493,1202,104,219,55,218],[599,1202,108,220,46,219],[709,1202,97,218,49,217],[808,1202,151,223,57,222],[961,1202,97,216,51,215],[1060,1202,118,220,62,219],[1180,1202,111,219,58,218],[1293,1202,110,218,59,217],[1405,1202,102,218,49,217],[1509,1202,107,199,60,198],[1618,1202,106,182,55,181],[1726,1202,107,157,52,156],[1835,1202,88,218,40,217],[1925,1202,123,145,71,144],[0,1427,117,102,66,101],[119,1427,180,55,98,54]], afterhours: [[0,0,235,237,162,236],[237,0,225,236,136,235],[464,0,243,235,149,234],[709,0,173,255,74,254],[884,0,179,255,79,254],[1065,0,581,277,91,276],[1648,0,188,263,93,262],[1838,0,196,267,90,266],[0,279,295,270,130,269],[297,279,299,273,169,272],[598,279,291,265,162,264],[891,279,221,258,150,257],[1114,279,232,224,136,223],[1348,279,201,231,127,230],[1551,279,243,244,160,243],[0,554,509,241,420,240],[511,554,293,191,206,190],[806,554,276,276,151,275],[1084,554,237,276,120,275],[1323,554,252,274,127,273],[1577,554,318,289,158,288],[0,845,184,266,97,265],[186,845,187,261,105,260],[375,845,181,265,104,264],[558,845,332,295,166,294],[892,845,801,244,644,243],[1695,845,261,244,119,243],[0,1142,243,211,102,210],[245,1142,368,258,214,257],[615,1142,162,254,94,253],[779,1142,146,267,74,265],[927,1142,144,265,75,264],[1073,1142,146,263,74,261],[1221,1142,191,259,105,258],[1414,1142,175,261,99,259],[1591,1142,168,257,105,256],[1761,1142,186,260,110,258],[0,1411,203,261,95,259],[205,1411,177,198,87,196],[384,1411,167,167,86,166],[553,1411,173,159,90,157],[728,1411,141,173,74,172],[871,1411,135,177,69,176],[1008,1411,134,173,71,172],[1144,1411,138,156,73,154],[1284,1411,148,160,72,159],[1434,1411,207,248,101,247],[1643,1411,203,247,105,246],[0,1674,234,246,115,243],[236,1674,257,243,118,241],[495,1674,283,255,136,253],[780,1674,398,256,141,254],[1180,1674,219,245,104,243],[1401,1674,151,243,79,241],[1554,1674,179,240,98,238],[1735,1674,181,236,95,234],[0,1932,250,238,105,235],[252,1932,325,253,130,250],[579,1932,234,231,102,230],[815,1932,264,225,120,223],[1081,1932,286,225,125,223],[1369,1932,340,227,154,226],[0,2187,363,225,169,222],[365,2187,302,242,129,240],[0,2431,332,95,150,94],[0,2528,232,262,141,261],[234,2528,126,265,60,264],[362,2528,125,262,59,261],[489,2528,125,255,59,254],[616,2528,126,250,59,249],[744,2528,125,243,59,242],[871,2528,125,252,60,251]], marcoss: [[0,0,147,283,71,282],[149,0,173,281,89,280],[324,0,202,270,108,269],[528,0,177,272,96,271],[707,0,139,272,79,271],[848,0,150,263,80,262],[1000,0,218,265,105,264],[1220,0,238,269,105,268],[1460,0,237,262,105,261],[1699,0,239,263,105,262],[0,285,182,262,71,261],[184,285,202,268,105,267],[388,285,374,258,105,257],[764,285,212,279,55,278],[978,285,239,271,79,270],[1219,285,156,175,89,174],[1377,285,276,162,86,161],[1655,285,277,171,110,170],[0,566,217,141,108,140],[219,566,206,104,103,103],[427,566,280,63,140,62],[709,566,152,184,78,183],[863,566,134,189,62,188],[999,566,170,192,65,191],[1171,566,180,172,73,171],[1353,566,169,174,61,173],[1524,566,171,148,74,147],[1697,566,186,138,73,137],[1885,566,145,181,56,180],[0,760,207,147,59,146],[209,760,134,147,65,146]], kom: [[0,0,141,281,69,280],[143,0,217,273,118,272],[362,0,204,234,119,233],[568,0,278,284,109,283],[848,0,298,274,109,273],[1148,0,323,281,109,280],[1473,0,305,290,109,289],[1780,0,253,280,109,279],[0,292,343,277,109,276],[345,292,456,294,109,293],[803,292,181,274,86,273],[986,292,225,274,106,273],[1213,292,433,274,109,273],[0,588,471,277,140,276],[473,588,256,276,121,275],[731,588,312,260,164,259],[1045,588,383,272,223,271],[1430,588,292,164,146,163],[1724,588,255,70,128,69],[0,867,145,158,76,157],[147,867,181,170,90,169],[330,867,168,170,84,169],[0,1039,300,74,140,73]] };
+const FR = { crimson: [[0,0,101,264,48,263],[103,0,102,263,52,262],[207,0,102,258,51,257],[311,0,99,259,49,258],[412,0,101,259,51,258],[515,0,96,258,52,257],[613,0,91,258,56,257],[706,0,88,254,46,253],[796,0,128,211,61,210],[926,0,127,179,57,178],[1055,0,115,193,52,192],[1172,0,110,167,46,166],[1284,0,109,163,54,162],[1395,0,117,173,49,172],[1514,0,146,199,69,198],[1662,0,142,196,69,195],[1806,0,148,195,68,194],[0,266,115,216,54,215],[117,266,102,214,47,213],[221,266,93,216,44,215],[316,266,140,204,62,203],[458,266,228,210,115,209],[688,266,105,140,51,139],[795,266,104,196,52,195],[901,266,140,237,41,236],[1043,266,519,168,415,167],[1564,266,172,169,96,168],[1738,266,184,194,65,193],[0,505,409,199,127,198],[411,505,204,184,147,183],[617,505,86,194,40,193],[705,505,195,198,86,197],[902,505,619,195,491,194],[1523,505,151,164,78,163],[1676,505,154,175,79,174],[1832,505,200,193,109,192],[0,706,128,167,75,166],[130,706,117,154,67,153],[249,706,120,169,54,168],[371,706,93,177,30,176],[466,706,274,231,136,230],[742,706,161,203,89,202],[905,706,137,196,79,195],[1044,706,119,209,63,208],[1165,706,123,177,61,176],[1290,706,162,198,73,197],[1454,706,177,122,99,121],[1633,706,156,162,78,161],[1791,706,140,161,65,160],[0,939,336,93,262,92],[338,939,103,261,48,260],[443,939,94,259,44,258],[539,939,93,258,43,257],[634,939,88,258,40,257],[724,939,95,237,53,236],[821,939,83,234,42,233],[906,939,115,228,66,227],[1023,939,79,228,42,227],[1104,939,67,228,39,227],[1173,939,82,232,45,231],[1257,939,110,180,51,179],[1369,939,113,162,52,161],[1484,939,105,161,46,160],[1591,939,108,157,48,156],[1701,939,127,186,60,185],[1830,939,122,160,58,159],[0,1202,115,164,55,163],[117,1202,108,218,57,217],[227,1202,114,215,54,214],[343,1202,148,210,75,209],[493,1202,104,219,55,218],[599,1202,108,220,46,219],[709,1202,97,218,49,217],[808,1202,151,223,57,222],[961,1202,97,216,51,215],[1060,1202,118,220,62,219],[1180,1202,111,219,58,218],[1293,1202,110,218,59,217],[1405,1202,102,218,49,217],[1509,1202,107,199,60,198],[1618,1202,106,182,55,181],[1726,1202,107,157,52,156],[1835,1202,88,218,40,217],[1925,1202,123,145,71,144],[0,1427,117,102,66,101],[119,1427,180,55,98,54]], afterhours: [[0,0,235,237,162,236],[237,0,225,236,136,235],[464,0,243,235,149,234],[709,0,173,255,74,254],[884,0,179,255,79,254],[1065,0,581,277,91,276],[1648,0,188,263,93,262],[1838,0,196,267,90,266],[0,279,295,270,130,269],[297,279,299,273,169,272],[598,279,291,265,162,264],[891,279,221,258,150,257],[1114,279,232,224,136,223],[1348,279,201,231,127,230],[1551,279,243,244,160,243],[0,554,509,241,420,240],[511,554,293,191,206,190],[806,554,276,276,151,275],[1084,554,237,276,120,275],[1323,554,252,274,127,273],[1577,554,318,289,158,288],[0,845,184,266,97,265],[186,845,187,261,105,260],[375,845,181,265,104,264],[558,845,332,295,166,294],[892,845,801,244,644,243],[1695,845,261,244,119,243],[0,1142,243,211,102,210],[245,1142,368,258,214,257],[615,1142,162,254,94,253],[779,1142,146,267,74,265],[927,1142,144,265,75,264],[1073,1142,146,263,74,261],[1221,1142,191,259,105,258],[1414,1142,175,261,99,259],[1591,1142,168,257,105,256],[1761,1142,186,260,110,258],[0,1411,203,261,95,259],[205,1411,177,198,87,196],[384,1411,167,167,86,166],[553,1411,173,159,90,157],[728,1411,141,173,74,172],[871,1411,135,177,69,176],[1008,1411,134,173,71,172],[1144,1411,138,156,73,154],[1284,1411,148,160,72,159],[1434,1411,207,248,101,247],[1643,1411,203,247,105,246],[0,1674,234,246,115,243],[236,1674,257,243,118,241],[495,1674,283,255,136,253],[780,1674,398,256,141,254],[1180,1674,219,245,104,243],[1401,1674,151,243,79,241],[1554,1674,179,240,98,238],[1735,1674,181,236,95,234],[0,1932,250,238,105,235],[252,1932,325,253,130,250],[579,1932,234,231,102,230],[815,1932,264,225,120,223],[1081,1932,286,225,125,223],[1369,1932,340,227,154,226],[0,2187,363,225,169,222],[365,2187,302,242,129,240],[0,2431,332,95,150,94],[0,2528,232,262,141,261],[234,2528,126,265,60,264],[362,2528,125,262,59,261],[489,2528,125,255,59,254],[616,2528,126,250,59,249],[744,2528,125,243,59,242],[871,2528,125,252,60,251]], marcoss: [[0,0,147,283,71,282],[149,0,173,281,89,280],[324,0,202,270,108,269],[528,0,177,272,96,271],[707,0,139,272,79,271],[848,0,150,263,80,262],[1000,0,218,265,105,264],[1220,0,238,269,105,268],[1460,0,237,262,105,261],[1699,0,239,263,105,262],[0,285,182,262,71,261],[184,285,202,268,105,267],[388,285,374,258,105,257],[764,285,212,279,55,278],[978,285,239,271,79,270],[1219,285,156,175,89,174],[1377,285,276,162,86,161],[1655,285,277,171,110,170],[0,566,217,141,108,140],[219,566,206,104,103,103],[427,566,280,63,140,62],[709,566,152,184,78,183],[863,566,134,189,62,188],[999,566,170,192,65,191],[1171,566,180,172,73,171],[1353,566,169,174,61,173],[1524,566,171,148,74,147],[1697,566,186,138,73,137],[1885,566,145,181,56,180],[0,760,207,147,59,146],[209,760,134,147,65,146]], kom: [[0,0,141,281,69,280],[143,0,217,273,118,272],[362,0,204,234,119,233],[568,0,278,284,109,283],[848,0,298,274,109,273],[1148,0,323,281,109,280],[1473,0,305,290,109,289],[1780,0,253,280,109,279],[0,292,343,277,109,276],[345,292,456,294,109,293],[803,292,181,274,86,273],[986,292,225,274,106,273],[1213,292,433,274,109,273],[0,588,471,277,140,276],[473,588,256,276,121,275],[731,588,312,260,164,259],[1045,588,383,272,223,271],[1430,588,292,164,146,163],[1724,588,255,70,128,69],[0,867,145,158,76,157],[147,867,181,170,90,169],[330,867,168,170,84,169],[0,1039,300,74,140,73]], brawler: [[0,0,127,314,54,313],[129,0,146,272,66,271],[277,0,162,267,74,266],[441,0,229,267,85,266],[672,0,189,257,95,256],[863,0,186,226,74,225],[1051,0,154,272,77,271],[1207,0,133,281,63,280],[1342,0,166,272,83,271],[1510,0,132,271,57,270],[1644,0,155,207,73,206],[1801,0,154,213,59,212],[0,316,150,272,72,271],[152,316,197,271,75,270],[351,316,224,273,81,272],[577,316,183,279,76,278],[762,316,210,274,85,273],[974,316,152,272,74,271],[1128,316,230,251,124,250],[1360,316,261,183,14,182],[1623,316,325,136,209,135],[0,597,225,198,113,197],[227,597,210,242,71,241],[439,597,242,260,90,259],[683,597,158,336,76,335],[843,597,202,247,76,246],[1047,597,205,245,129,244],[1254,597,187,221,88,220],[1443,597,274,198,203,197],[0,935,380,78,191,77]] };
 
 /* ---------- 2. Roster ----------
    frames: animation name → list of [frameIndex, ticks]
@@ -150,12 +150,49 @@ const ROSTER = {
             dmg:5, stun:16, push:3, multi:7, name:"KING OF BEALE", superMove:true },
     },
   },
+  // BOSS #1: Midsouth Brawler. Not in the select row: you meet him with the BOSS toggle on the title screen.
+  // Atlas index guide: 0 relaxed | 1-2 stance | 3 cross | 4 hook wind-up | 5 grab lunge | 6-7 stance | 8-9 walk | 10 crouch/guard | 11 jump |
+  // 12 stance | 13 jab | 14 cross | 15 hook wind-up | 16 hook swing | 17 recovery | 18 rope-whip pull | 19 elbow drop (air) | 20 elbow drop (landed) |
+  // 21 knee crusher | 22 King's Drop (air) | 23 grab reach | 24 lift overhead | 25 body slam | 26 suplex | 27 piledriver | 28 knocked back | 29 lying.
+  // No block, hit or victory art yet: block uses the crouch guard, getting hit uses the code lean.
+  brawler: {
+    name: "BRAWLER", atlas: "brawler", size: 1.08, boss: true, takes: 0.58, deals: 1.15, style: "BOSS  ·  MEMPHIS HEAVYWEIGHT",
+    anim: {
+      idle:[[6,16],[7,16]], walk:[[8,9],[9,9]],
+      crouch:[[10,99]], jump:[[11,99]], air:[[11,99]], land:[[10,6]],
+      block:[[10,99]], hit:[[6,99]], ko:[[28,22],[29,999]],
+      win:[[0,99]], airkick:[[11,99]],
+    },
+    fallback:{ hit:"lean" },
+    walkScale: 1, stanceScale: 1,
+    moves: {
+      p:  { seq:[[12,2],[13,8],[12,3]], active:[2,10], box:[25,-175,175,-120], dmg:8,  stun:15, push:6 },
+      hp: { seq:[[12,4],[14,11],[17,6]], active:[5,15], box:[25,-175,185,-115], dmg:13, stun:21, push:10 },
+      k:  { seq:[[15,6],[16,10],[17,6]], active:[6,14], box:[20,-185,175,-110], dmg:11, stun:19, push:8 },
+      hk: { seq:[[4,8],[15,5],[16,12],[17,7]], active:[11,22], box:[15,-190,185,-100], dmg:15, stun:24, push:11, knock:true },
+      k3: { seq:[[15,4],[16,9],[17,6]], active:[4,12], box:[20,-195,180,-100], dmg:12, stun:22, push:12, knock:true },
+      // Body Slam: lunging grab, lift, slam (launches)
+      s:  { seq:[[5,7],[23,7],[24,10],[25,14],[2,8]], active:[10,30], box:[20,-210,160,-60], dmg:16, stun:32, push:12,
+            dash:[0,10,6], knock:true, name:"BODY SLAM" },
+      // Rope Whip: yank, then a running clothesline
+      s2: { seq:[[18,10],[16,14],[17,6]], active:[8,24], box:[20,-195,185,-105], dmg:13, stun:24, push:11,
+            dash:[4,22,8], knock:true, name:"ROPE WHIP" },
+      // Sky Lift: anti-air grab that launches them overhead
+      su: { seq:[[23,4],[24,16],[2,6]], active:[4,20], box:[0,-260,125,-60], dmg:14, stun:24, push:5,
+            knock:true, launch:[4,-12,2], name:"SKY LIFT" },
+      airs:{ seq:[[11,5],[19,99]], active:[0,999], box:[0,-130,160,0], dmg:13, stun:22, push:8, knock:true,
+            dive:[0,13,7], landFrame:20, name:"ELBOW DROP" },
+      // King's Drop: leaps and crashes down with a crown-flash elbow (one huge hit)
+      super:{ seq:[[21,8],[22,34],[19,40]], active:[10,70], box:[-30,-175,185,0],
+            dmg:26, stun:38, push:14, knock:true, launch:[8,-15,6], landFrame:20, name:"KING'S DROP", superMove:true },
+    },
+  },
 };
 
 /* ---------- 3. Input ---------- */
 const held = {}, pressed = {};
 const KEYMAP = { a:"left", arrowleft:"left", d:"right", arrowright:"right", w:"up", arrowup:"up", " ":"up",
-  s:"down", arrowdown:"down", j:"p", z:"p", k:"k", x:"k", l:"s", c:"s", enter:"start" };
+  s:"down", arrowdown:"down", j:"p", z:"p", k:"k", x:"k", l:"s", c:"s", enter:"start", b:"boss" };
 addEventListener("keydown", e=>{ const k=KEYMAP[e.key.toLowerCase()]; if(!k) return; e.preventDefault();
   if(!held[k]) pressed[k]=true; held[k]=true; audio.unlock(); });
 addEventListener("keyup", e=>{ const k=KEYMAP[e.key.toLowerCase()]; if(k) held[k]=false; });
@@ -421,7 +458,7 @@ class Fighter {
 /* ---------- 5. CPU ---------- */
 const LEVELS = { EASY:{react:.35,aggr:.012,block:.25}, NORMAL:{react:.6,aggr:.025,block:.5}, HARD:{react:.85,aggr:.045,block:.75} };
 function cpuControl(me, foe){
-  const L=LEVELS[match.level], dist=Math.abs(foe.x-me.x), ctl={};
+  const L0=LEVELS[match.level], L=me.c.boss?{react:Math.min(.92,L0.react+.1),aggr:L0.aggr*1.35,block:Math.min(.85,L0.block+.12)}:L0, dist=Math.abs(foe.x-me.x), ctl={};
   const towards = foe.x>me.x ? "right" : "left", away = towards==="right" ? "left" : "right";
   me.ai = me.ai || {wait:0, plan:null};
   // React to incoming attacks by holding back (blocking)
@@ -457,7 +494,9 @@ const match = {
   screen:"title", sel:0, level:"NORMAL", round:1, timer:99, frame:0, pause:0, banner:null, shake:0, hitstop:0,
   sparks:[], rings:[], calls:[], projectiles:[], p1:null, p2:null, winner:null,
   callout(text,color){ this.calls.push({text,color,t:0}); },
-  start(){ const others=KEYS.filter((k,i)=>i!==this.sel), opp=others[Math.floor(Math.random()*others.length)];   // CPU plays a random other fighter
+  boss:false,
+  start(){ const others=KEYS.filter((k,i)=>i!==this.sel), opp=this.boss?"brawler":others[Math.floor(Math.random()*others.length)];   // CPU plays a random other fighter, or the boss
+    if(this.boss) this.stage=2;   // the boss always fights in the Midsouth Coliseum
     this.p1=new Fighter(KEYS[this.sel],330,1,false); this.p2=new Fighter(opp,630,-1,true);
     this.round=1; this.newRound(); this.screen="fight"; },
   newRound(){ for(const [f,x,d] of [[this.p1,330,1],[this.p2,630,-1]]){ Object.assign(f,{x,y:0,vx:0,vy:0,facing:d,hp:100,state:"idle",t:0,move:null,flash:0,bounced:false}); }
@@ -488,7 +527,7 @@ function applyHit(a,b,m,px,py){
   const blocking = b.holdingBack && b.grounded && !["attack","hit"].includes(b.state) && b.state!=="crouch";
   if(blocking){ b.setState("block"); b.stun=12; b.vx=a.facing*m.push*.6;
     b.hp-=Math.round(m.dmg*0.1); b.meter=Math.min(100,b.meter+4); spark(px,py,"#45e0ff",8); audio.block(); match.hitstop=3; return; }
-  const dmg=m.dmg;
+  const dmg=m.dmg*(a.c.deals||1)*(b.c.takes||1);
   b.hp=Math.max(0,b.hp-dmg); b.flash=8; b.vx=a.facing*m.push; a.meter=Math.min(100,a.meter+dmg*1.2); b.meter=Math.min(100,b.meter+dmg*.6);
   spark(px,py, a.ex?"#ffc642":"#ff3fb4", 14); audio.hit(dmg>=10); match.hitstop = dmg>=10?7:4; match.shake = dmg>=10?8:4;
   if(b.hp<=0){ b.setState("ko"); b.vx=a.facing*4; b.vy=-8; b.y=-1; audio.ko(); match.hitstop=20; match.shake=14; endRound(a); }
@@ -512,9 +551,11 @@ function step(){
     if(pressed.left||pressed.right){ match.sel=(match.sel+(pressed.right?1:KEYS.length-1))%KEYS.length; match.selT=match.frame; blip(); }
     if(pressed.up||pressed.down){ const L=Object.keys(LEVELS),i=L.indexOf(match.level); match.level=L[(i+(pressed.down?1:L.length-1))%L.length]; audio.tone(400,.05); }
     if(pressed.k){ match.stage=(match.stage+1)%STAGES.length; audio.tone(400,.05); }
+    if(pressed.boss){ match.boss=!match.boss; audio.tone(match.boss?200:400,.08,"sawtooth",.1); }
     if(pressed.tap){ // touch menu: tap a fighter card, a stage, a difficulty, or the fight button
       const x=pressed.tapX,y=pressed.tapY, hit=r=>r&&x>r[0]&&x<r[0]+r[2]&&y>r[1]&&y<r[1]+r[3];
       const f=titleCards.findIndex(hit), st=titleStage.findIndex(hit), d=titleDiff.findIndex(hit);
+      if(hit(titleBoss)){ match.boss=!match.boss; audio.tone(match.boss?200:400,.08,"sawtooth",.1); return; }
       if(f>=0){ if(match.sel!==f){ match.sel=f; match.selT=match.frame; blip(); } }
       else if(st>=0){ match.stage=st; audio.tone(400,.05); }
       else if(d>=0){ match.level=Object.keys(LEVELS)[d]; audio.tone(400,.05); }
@@ -632,7 +673,7 @@ function bar(x,y,w,h,pct,rev,c1,c2,ghost){
     g.save(); g.clip(); g.fillStyle="rgba(255,255,255,.28)"; g.fillRect(x,y,w+sk,h*.35); g.restore(); }
   path(x,x+w); g.strokeStyle="#f6eefc"; g.lineWidth=2; g.stroke();
 }
-const FACE={ crimson:[150,5,180], afterhours:[170,15,170], marcoss:[165,0,180], kom:[150,12,185] };   // face crop (x, y, size) in each select portrait
+const FACE={ crimson:[150,5,180], afterhours:[170,15,170], marcoss:[165,0,180], kom:[150,12,185], brawler:[262,0,150] };   // face crop (x, y, size) in each select portrait
 function portrait(f,cx,cy,r,col){
   const [sx,sy,ss]=FACE[f.key], sp=IMG["win_"+f.key], q=sp.width/506;
   g.save(); g.beginPath(); g.arc(cx,cy,r,0,7); g.clip(); g.drawImage(sp,sx*q,sy*q,ss*q,ss*q,cx-r,cy-r,r*2,r*2);
@@ -662,7 +703,7 @@ function drawHUD(){
     g.shadowColor="#ff3fb4"; g.shadowBlur=24*DPR; fat(b.text,0,big,"#ff3fb4"); g.shadowBlur=0;
     if(b.sub) fat(b.sub+(b.text==="K.O."?"!":""),big*0.55,VW<700?30:38,"#ffd21f"); g.restore(); }
 }
-let titleDiff=[];
+let titleDiff=[], titleBoss=null;
 function plain(t,x,y,size,col,font="Bungee"){ g.font=`${size}px ${font}, Impact, sans-serif`; g.textAlign="center"; g.fillStyle=col; g.fillText(t,x,y); }
 function slant(x,y,w,h,sk){ g.beginPath(); g.moveTo(x+sk,y); g.lineTo(x+w,y); g.lineTo(x+w-sk,y+h); g.lineTo(x,y+h); g.closePath(); }
 function drawTitle(){
@@ -714,17 +755,21 @@ function drawTitle(){
     slant(x,sy,cw,sh,8); g.strokeStyle=on?"#ffc642":"#4a3a70"; g.lineWidth=on?3:1.5; if(on){ g.shadowColor="#ffc642"; g.shadowBlur=10*DPR; } g.stroke(); g.shadowBlur=0;
     plain(small?st.name.replace("MIDSOUTH ",""):st.name,x+cw/2-2,sy+sh-5,small?9.5:11,on?"#ffc642":"#c9bce0"); });
   // difficulty: three tappable pills
-  const L=Object.keys(LEVELS), pw=small?86:100, pg=8, px0=C-(pw*3+pg*2)/2;
+  const L=Object.keys(LEVELS), pw=small?86:100, pg=8, px0=C-(pw*4+pg*3)/2;
   L.forEach((lv,i)=>{ const x=px0+i*(pw+pg), on=match.level===lv; titleDiff[i]=[x,404,pw,26];
     slant(x,404,pw,26,8); g.fillStyle=on?"#ffc642":"rgba(26,16,48,.85)"; if(on){ g.shadowColor="#ffc642"; g.shadowBlur=12*DPR; } g.fill(); g.shadowBlur=0;
     g.strokeStyle=on?"#fff3b0":"#4a3a70"; g.lineWidth=1.5; g.stroke(); plain(lv,x+pw/2,423,14,on?"#0d0718":"#b9aacf"); });
+  // boss toggle: a fourth pill beside the difficulty pills (key: B)
+  { const x=px0+3*(pw+pg), on=match.boss; titleBoss=[x,404,pw,26];
+    slant(x,404,pw,26,8); g.fillStyle=on?"#ff3b3b":"rgba(26,16,48,.85)"; if(on){ g.shadowColor="#ff3b3b"; g.shadowBlur=14*DPR; } g.fill(); g.shadowBlur=0;
+    g.strokeStyle=on?"#ffd0d0":"#7a3a52"; g.lineWidth=1.5; g.stroke(); plain("BOSS",x+pw/2,423,14,on?"#fff":"#d98aa0"); }
   // fight button
   const bw=Math.min(300,VW-90), pulse=1+.035*Math.sin(F*.14);
   g.save(); g.translate(C,470); g.scale(pulse,pulse);
   slant(-bw/2,-22,bw,44,12); const bg=g.createLinearGradient(0,-22,0,22); bg.addColorStop(0,"#ff6ac6"); bg.addColorStop(1,"#c2187f");
   g.shadowColor="#ff3fb4"; g.shadowBlur=(18+8*Math.sin(F*.14))*DPR; g.fillStyle=bg; g.fill(); g.shadowBlur=0; g.strokeStyle="#fff"; g.lineWidth=2; g.stroke();
   text(touch?"TAP TO FIGHT":"PRESS ENTER TO FIGHT",0,8,small?22:22,"#fff"); g.restore();
-  plain(touch?"Tap a fighter and a stage":"◀ ▶ fighter   ·   ▲ ▼ difficulty   ·   K stage",C,526,12,"#c9bce0","Chakra Petch");
+  plain(touch?(match.boss?"BOSS FIGHT: Midsouth Brawler in the Coliseum":"Tap a fighter and a stage"):"◀ ▶ fighter   ·   ▲ ▼ difficulty   ·   K stage   ·   B boss",C,526,12,"#c9bce0","Chakra Petch");
 }
 // Animated victory clips, stored as grids of 400px frames: {columns, frame count, frames per second}
 // `order` is the playlist of frame numbers; clips play forward then backward so loops never jump.
@@ -736,7 +781,14 @@ const VICTORY={
   kom:{ cols:6, fps:6, fw:480, fh:270, order:[...seq(0,29), ...Array(8).fill(29), ...seq(28,1)], wide:true },
 };
 function drawResult(){
-  const C=VW/2, w=match.winner, you=w===match.p1, sp=IMG["va_"+w.key], va=VICTORY[w.key];
+  const C=VW/2, w=match.winner, you=w===match.p1;
+  if(!VICTORY[w.key]){   // no victory clip yet (the boss): hold his portrait with a slow push-in
+    const sp=IMG["win_"+w.key], z=1+.04*Math.min(1,(match.frame-match.resultStart)/240), dh=540*z, dw=dh*sp.width/sp.height;
+    g.filter="blur(14px) brightness(.4)"; g.drawImage(sp,-20,-20,VW+40,580); g.filter="none"; g.drawImage(sp,(VW-dw)/2,(540-dh)/2,dw,dh);
+    const gr=g.createLinearGradient(0,0,0,540); gr.addColorStop(0,"rgba(13,7,24,0)"); gr.addColorStop(.68,"rgba(13,7,24,0)"); gr.addColorStop(1,"rgba(13,7,24,.92)"); g.fillStyle=gr; g.fillRect(0,0,VW,540);
+    text(you?"YOU WIN":"YOU LOSE",C,462,VW<700?54:64,you?"#ffc642":"#ff4d4d"); text(w.c.name+" OWNS BEALE",C,492,VW<700?18:22,"#f6eefc");
+    if(Math.floor(match.frame/30)%2) text(document.body.classList.contains("touch")?"TAP TO CONTINUE":"PRESS ENTER",C,526,18,"#45e0ff"); return; }
+  const sp=IMG["va_"+w.key], va=VICTORY[w.key];
   const i=va.order[Math.floor((match.frame-match.resultStart)*va.fps/60)%va.order.length];
   const fx=(i%va.cols)*va.fw, fy=Math.floor(i/va.cols)*va.fh, sc=Math.max(VW/va.fw,540/va.fh), sw=VW/sc, sh=540/sc;
   // If filling the screen would crop away more than ~15% of the picture (square clips on a wide screen, wide clips on a tall one),
@@ -799,5 +851,5 @@ function loop(now){
   while(acc>=1000/60){ step(); for(const k in pressed) pressed[k]=false; acc-=1000/60; }
   render(); requestAnimationFrame(loop);
 }
-Promise.all([ load("crimson","assets/nicole-sprites.webp"), load("afterhours","assets/keelah-sprites.webp"), load("bg","assets/stage-beale-street.jpg"), load("kom","assets/kom-sprites.webp"), load("win_kom","assets/select-kom.jpg"), load("va_kom","assets/victory-kom.webp"), load("marcoss","assets/marcoss-sprites.webp"), load("bg_palace","assets/stage-crystal-palace.jpg"), load("bg_coliseum","assets/stage-midsouth-coliseum.jpg"), load("win_marcoss","assets/select-marcoss.jpg"), load("va_marcoss","assets/victory-marcoss.webp"), load("win_crimson","assets/select-nicole.jpg"), load("win_afterhours","assets/select-keelah.jpg"), load("va_crimson","assets/victory-nicole.webp"), load("va_afterhours","assets/victory-keelah.webp") ])
+Promise.all([ load("crimson","assets/nicole-sprites.webp"), load("afterhours","assets/keelah-sprites.webp"), load("bg","assets/stage-beale-street.jpg"), load("kom","assets/kom-sprites.webp"), load("win_kom","assets/select-kom.jpg"), load("va_kom","assets/victory-kom.webp"), load("marcoss","assets/marcoss-sprites.webp"), load("brawler","assets/brawler-sprites.webp"), load("win_brawler","assets/select-brawler.jpg"), load("bg_palace","assets/stage-crystal-palace.jpg"), load("bg_coliseum","assets/stage-midsouth-coliseum.jpg"), load("win_marcoss","assets/select-marcoss.jpg"), load("va_marcoss","assets/victory-marcoss.webp"), load("win_crimson","assets/select-nicole.jpg"), load("win_afterhours","assets/select-keelah.jpg"), load("va_crimson","assets/victory-nicole.webp"), load("va_afterhours","assets/victory-keelah.webp") ])
   .then(()=>requestAnimationFrame(loop));
