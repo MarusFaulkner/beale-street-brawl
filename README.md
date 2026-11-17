@@ -67,7 +67,7 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 
 ## Known gaps
 
-- Keelah has no dedicated block or hit art yet. Those states reuse other frames with effects drawn in code. Her knockdown has its own lying pose.
+- Keelah now has her own block and hit art. Nicole and Marcoss still use code effects for getting hit.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
 - KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run, knockdown and crouch frames were drawn small and look softer than the rest.
 - Two more fighters and two bosses are planned.
