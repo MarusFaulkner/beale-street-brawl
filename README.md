@@ -6,11 +6,24 @@ A 2D fighting game set on Beale Street in Memphis, Tennessee. It runs in any mod
 
 ## Status
 
-Four of the planned six fighters are playable: **Nicole** (rushdown, dash punches), **Keelah** (kickboxer, spin kicks), **Marcoss** (powerhouse, heavy hands) and **KOM** (all-rounder). Two bosses are planned. There are three stages: Beale Street, the Crystal Palace roller rink and the Midsouth Coliseum. The current mode is one player against a random CPU opponent, best of three rounds, with Easy, Normal and Hard difficulty.
+The first release is complete and playable. Four fighters are playable: **Nicole** (rushdown, dash punches), **Keelah** (kickboxer, spin kicks), **Marcoss** (powerhouse, heavy hands) and **KOM** (all-rounder). There is one boss, the **Midsouth Brawler**. There are three stages: Beale Street, the Crystal Palace roller rink and the Midsouth Coliseum, each with its own music. The mode is one player against the CPU, best of three rounds, with Easy, Normal and Hard difficulty. Every fighter and the boss has a victory animation or portrait, a knockout pose and a K.O. banner.
 
 ### Boss fight
 
-Press **B** on the title screen (or tap the red **BOSS** pill) to fight **Midsouth Brawler**, the first boss, in the Midsouth Coliseum. He is a heavyweight wrestler who is bigger and tougher than the fighters, hits harder and plays more aggressively. His moves are Body Slam (Special), Rope Whip (Down + Special), Sky Lift (Back + Special), Elbow Drop (Special in the air) and the King's Drop super at a full meter.
+Press **B** on the title screen (or tap the red **BOSS** pill) to fight the **Midsouth Brawler** in the Midsouth Coliseum. He is a heavyweight wrestler who is bigger and tougher than the fighters, takes less damage, hits harder and plays more aggressively. He uses the same inputs as everyone else:
+
+| Input | Midsouth Brawler |
+|---|---|
+| Punch / Forward + Punch | Jab / Cross |
+| Kick / Forward + Kick | Big hook / Haymaker (knocks down) |
+| Punch, Punch, Kick | 3-hit combo |
+| Special | Body Slam (lunging grab, launches) |
+| Down + Special | Rope Whip (running clothesline) |
+| Back + Special | Sky Lift (anti-air grab) |
+| Special in the air | Elbow Drop (dive) |
+| Special with a full meter | King's Drop (leaping crown elbow) |
+
+The boss is CPU-only for now.
 
 ## Controls
 
@@ -25,6 +38,7 @@ Press **B** on the title screen (or tap the red **BOSS** pill) to fight **Midsou
 | Block | Hold back | Hold back |
 | Start / confirm | `Enter` | Tap |
 | Change stage (select screen) | `K` | Tap a stage |
+| Boss fight on / off (select screen) | `B` | Tap BOSS |
 
 ## Moves
 
@@ -71,15 +85,14 @@ The music and sound effects are synthesized in the browser with the Web Audio AP
 
 ## Known gaps
 
-- Keelah now has her own block and hit art. Nicole and Marcoss still use code effects for getting hit.
+- Keelah and Nicole have their own block and hit art. Marcoss and KOM use a code effect when they are hit.
 - Marcoss's standing punch and kick art was drawn from the waist up, so the atlas joins those frames onto legs from his stance frames.
-- KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run, knockdown and crouch frames were drawn small and look softer than the rest.
+- KOM's punch and blast art was drawn from the thighs up, so the atlas joins those frames onto legs from his stance frame. His run and crouch frames were drawn small and look softer than the rest.
 - The Midsouth Brawler has no block, hit-reaction or kick art yet: blocking uses his crouch guard and getting hit uses a code effect.
-- Two more fighters and one more boss are planned.
-- There is no two-player mode yet.
+- Ideas for a later release: two more fighters, a second boss, and a two-player mode.
 
 ## Credits and rights
 
-Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on real people, used with their permission, except KOM, who is an invented character. The character art and likeness are not licensed for reuse.
+Game design and art direction by Marcus Faulkner. The character art was generated with AI image tools and is based on real people, used with their permission, except KOM and the Midsouth Brawler, who are invented characters. The character art and likeness are not licensed for reuse.
 
 The soundtrack is an original composition written for this game.
